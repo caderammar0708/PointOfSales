@@ -12,11 +12,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create 10 random users using factory
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Create specific users - use updateOrCreate to avoid duplicates on re-seeding
+        \App\Models\User::updateOrCreate(
+            ['email' => 'admin@growdigitec.com'],
+            [
+                'name' => 'Admin User',
+                'password' => bcrypt('admin123'),
+                'role' => 'admin',
+            ]
+        );
+
+        \App\Models\User::updateOrCreate(
+            ['email' => 'user@growdigitec.com'],
+            [
+                'name' => 'User User',
+                'password' => bcrypt('user123'),
+                'role' => 'cashier',
+            ]
+        );
+
+        $this->call([
+            CategorySeeder::class,
+            UnitSeeder::class,
+            ProductSeeder::class,
+            CustomerSeeder::class,
+            SaleSeeder::class,
+        ]);
     }
 }
