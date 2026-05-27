@@ -13,6 +13,13 @@
         <!-- Scripts -->
         @routes
         @viteReactRefresh
+        @env('production')
+            @php
+                if (file_exists(public_path('hot'))) {
+                    unlink(public_path('hot'));
+                }
+            @endphp
+        @endenv
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
     </head>
